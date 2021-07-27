@@ -1,17 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+
+import ReactDOM from "react-dom";
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+//import App from './App';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import React, {useState} from "react";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+function App(){
+  const [item, setItem] = useState(1);
+  const incrementItem = () =>setItem(item+1);
+  const decrementItem = () =>setItem(item-1);
+  return (
+    <div className = "App">
+      <h1>Hello Everyone</h1>
+      <h2 > lets check up-down ====> {item} </h2>
+      <h2>Welcome to learning react-hooks!</h2>
+      <h3>from Last_SilverLight-End</h3>
+
+      <button onClick = {incrementItem}>Increment</button>
+      <button onClick ={decrementItem}>  Decrement </button>
+
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App/>,rootElement);
