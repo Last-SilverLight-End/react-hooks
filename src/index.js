@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import './index.css';
 //import App from './App';
 
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 export const useInput = (initialValue,validator) =>{
   const [value,setValue] = useState(initialValue);
@@ -50,8 +50,45 @@ const useTabs = (initialTab, allTabs) => {
   
 };
 
+const useTitle = (initialTitle) => {
+  const [title,setTitle] = useState(initialTitle);
+  const updateTitle = () =>{
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText= title;
+  };
+  useEffect(updateTitle,[title]);
+  return setTitle;
+};
+
+const useClick = (onClick) => {
+  
+  const element = useRef();
+  useEffect(() => {
+    if(element.current){
+      element.current.addEventListener("click",onClick);
+    } 
+    return () => { 
+      if(element.current){
+        element.current.removeEventListener("click",onClick);
+      }
+    };
+  }, []);
+  return element;
+}
+
+
 
 const App = () => {
+  const saidHello = () => console.log("said hello");
+  const title = useClick(saidHello);
+const potato = useRef();
+setTimeout(() => potato.current.focus(),5000);
+  const titleUpdator = useTitle("Loading...");
+  setTimeout(() => titleUpdator("home"),5000);
+  const sayHello = () => console.log("hello");
+ // useEffect(sayHello,[number]);
+  const [number, setNumber] = useState(0);
+  const [aNumber,setAnumber] = useState(0);
   const {currentItem,changeItem } = useTabs(0,content);
   const maxLen =  (value) => !value.includes("@");
   const name = useInput("Mr.",maxLen); 
@@ -83,7 +120,24 @@ const App = () => {
       ))}
         
         {currentItem.content}</div>
+        <div>Hi
+        
+        <button onClick = {() => setNumber (number+1)} >{number}</button>
+        <button onClick = {() => setAnumber (aNumber+1)}>{aNumber}</button>
+        </div>
+
+        <div>Hi222222
+          <input ref = {potato} placeholder = "la"/>
+          </div>
+
+          <div> 
+            <h1 ref = {title} >Hi reference! </h1>
+            
+          </div>
+
+
     </div>
+    
   );
 }
 
